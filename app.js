@@ -3,7 +3,7 @@ import express from 'express'
 import fetch from 'node-fetch'
 import currentModulePaths from 'current-module-paths'
 import { createClient } from 'redis'
-import { fetchWikipediaSummary, replaceSpacesWithUnderscores } from './functions.js'
+import {fetchWikipediaSummary, replaceSpacesWithUnderscores } from './functions.js'
 const app = express();
 app.set('views', 'views')
 app.set('view engine', 'ejs')
@@ -22,11 +22,17 @@ app.get('/', (req,res) => {
 })
 
 app.get('/submit', (req, res) => {
-    const name = req.query.search;
-    const query = encodeURIComponent(name);
-    fetchWikipediaSummary(client, query, req, res)
-
+    const search = req.query.search;
+    const query = encodeURIComponent(search);
+    fetchWikipediaSummary(client, query, req, res, false);
 })
+
+app.get('/api', (req, res) => {
+    const search = req.query.search;
+    const query = encodeURIComponent(search);
+    fetchWikipediaSummary(client, query, req, res, true);
+})
+
 app.listen(port, () => {
     console.log(`Server Listening on port ${port}`);
 })

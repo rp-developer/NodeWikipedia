@@ -15,8 +15,20 @@
     const title = document.querySelector("#title");
     const moreInfo = document.querySelector("#moreInfo");
     moreInfo.addEventListener("click", function (e) {
-        
-    });
+        const link = document.createElement("a");
+        link.href = "<%=page%>";
+        link.textContent = "<%=page%>"
+        document.body.append(link);
+    }, {once: true});
 
 </script>
+
+<noscript>
+<style>
+#moreInfo {
+    opacity: 0.1;
+    cursor:not-allowed;
+}
+</style>
+</noscript>
 </html>
