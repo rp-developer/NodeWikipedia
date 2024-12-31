@@ -1,80 +1,70 @@
 import fetch from 'node-fetch';
 
-async function fetchWikipediaSummary(client, query, req, res, asJson) {
+async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
     try {
+        const sendResponse = (status, data) => {
+            if (asJson) {
+                return res.status(status).json(data);
+            }
+            return res.status(status).render('summary', data);
+        };
+
+        // Fetch cached summary
         let cachedSummary;
         try {
             cachedSummary = await client.get(query);
-
         } catch (redisError) {
             console.error('Error fetching from Redis:', redisError);
-            res.status(500).send('Error connecting to Redis');
-            return; 
+            return res.status(500).send('Error connecting to Redis');
         }
-            if (cachedSummary) {
-                const parsedSummary = JSON.parse(cachedSummary);
-                console.log("Serving from Cache");
-                if (asJson === true) {
-                    res.status(200).json({extract: parsedSummary.extract, title: parsedSummary.title, page: parsedSummary.page});
-                }
-                res.status(200).render('summary', {extract: parsedSummary.extract, title: parsedSummary.title, page: parsedSummary.page});
-            } else {
-                try {
-                    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${replaceSpacesWithUnderscores(query)}`;
-                    const response = await fetch(url);
-                    console.log(url);
-                    const data = await response.json();
-                    const type = data['type'];
 
-                        if (type === "https://mediawiki.org/wiki/HyperSwitch/errors/bad_request") {
-                            //Page not found
-                            console.log('Page not found');
-                            res.status(404).send('Page not found');
-                            return;
-                        }
-                        const title = data.title;
-                        const extract = data.extract;
-                        const page = data.content_urls.desktop.page;
+        if (cachedSummary) {
+            console.log("Serving from Cache");
+            const parsedSummary = JSON.parse(cachedSummary);
+            return sendResponse(200, { extract: parsedSummary.extract, title: parsedSummary.title, page: parsedSummary.page });
+        }
 
-                        if (extract) {
-                            console.log("Summary: ", extract);
-                            
-                            const summaryData = {
-                                extract, title, page
-                            };
-                            client.setEx(query, 3600, JSON.stringify(summaryData), (err) => {
-                                if (err) {
-                                    console.error(`Error setting cache: ${err}`);
-                                } else {
-                                    console.log(`Cached Summary in Redis`);
-                                }
-                            });
-                            if (asJson === true) {
-                                res.status(200).json({extract: extract, title: title, page: page});
-                            } else{
-                                res.status(200).render('summary', {extract: extract, title: title, page: page});
-                            }
-                        } else {
-                            console.log('page not found');
-                            res.status(404).send("page not found");
-                        } 
-                } catch (error) {
-                        console.error("error fetching data:", error);
-                        res.status(500).send("Error fetching data")
-                }
-            }
-    } catch (err) {
-        console.log(`error fetching data ${err}`);
-        res.status(500).send('error fetching data');
+        // Fetch summary from Wikipedia API
+        const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${replaceSpacesWithUnderscores(query)}`;
+        console.log("Fetching URL:", url);
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            console.error('Error fetching from Wikipedia API:', response.statusText);
+            return res.status(404).send('Page not found');
+        }
+
+        const data = await response.json();
+        if (data.type === "https://mediawiki.org/wiki/HyperSwitch/errors/bad_request") {
+            console.log('Page not found');
+            return res.status(404).send('Page not found');
+        }
+
+        const { title, extract, content_urls } = data;
+        const page = content_urls.desktop.page;
+
+        if (!extract) {
+            console.log('Page not found');
+            return res.status(404).send('Page not found');
+        }
+
+        console.log("Summary:", extract);
+
+        const summaryData = { extract, title, page };
+        try {
+            await client.set(query, JSON.stringify(summaryData), { EX: 3600 });
+            console.log('Cached Summary in Redis');
+        } catch (err) {
+            console.error('Error caching data in Redis:', err);
+        }
+
+        return sendResponse(200, summaryData);
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).send('Error fetching data');
     }
 }
 
+const replaceSpacesWithUnderscores = (query) => query.replace(/ /g, '_');
 
-
-
-const replaceSpacesWithUnderscores = (query) => {
-    return query.replace(/ /g, '_');
-};
-
-
-export {fetchWikipediaSummary, replaceSpacesWithUnderscores};
+export { fetchWikipediaSummary, replaceSpacesWithUnderscores };
