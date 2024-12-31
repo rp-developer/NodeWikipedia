@@ -32,8 +32,9 @@ async function fetchWikipediaSummary(query, req, res) {
                 res.status(200).render('summary', {extract: parsedSummary.extract, title: parsedSummary.title});
             } else {
                 try {
-                    const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${query}&prop=extracts&exintro=true&explaintext=true`);
+                    const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
                     const data = await response.json();
+                        console.log(response.json);
                         const pages = data.query.pages;
                         const pageId = Object.keys(pages)[0];
 
@@ -63,7 +64,7 @@ async function fetchWikipediaSummary(query, req, res) {
                             res.status(200).render('summary', {extract: extract, title: title})
                         } else {
                             console.log('page not found');
-                            res.status(404).send("Extract not found");
+                            res.status(404).send("page not found");
                         } 
                 } catch (error) {
                         console.error("error fetching data:", error);
