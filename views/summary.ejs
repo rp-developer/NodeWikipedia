@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="summarystyles.css">
 </head>
 <body>
-    <h1><%=title%></h1>
+    <h1 id="title"><%=title%></h1>
     <p><%=extract%></p>
+    <button id="moreInfo" type="button">More Info</button>
 </body>
+<script>
+    const title = document.querySelector("#title");
+    const moreInfo = document.querySelector("#moreInfo");
+    moreInfo.addEventListener("click", function (e) {
+        
+    });
+
+</script>
 </html>
