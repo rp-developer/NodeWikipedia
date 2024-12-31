@@ -1,6 +1,5 @@
 import path from 'path'
 import express from 'express'
-import fetch from 'node-fetch'
 import currentModulePaths from 'current-module-paths'
 import { createClient } from 'redis'
 import {fetchWikipediaSummary, replaceSpacesWithUnderscores } from './functions.js'
@@ -35,4 +34,5 @@ app.get('/api', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server Listening on port ${port}`);
+    console.log(`http://127.0.0.1:${port}`);
 })
