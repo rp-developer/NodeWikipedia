@@ -13,7 +13,6 @@
   "version": "1.0.0",
   "description": "NodeJS Wikipedia Search Site",
   "main": "app.js",
-  "devDependencies": {},
   "scripts": {
     "start": "nodemon app.js"
   },
