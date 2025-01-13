@@ -15,6 +15,7 @@ const client = createClient({
 client.on('error', (err) => console.log(`Redis Client Error`, err));
 client.connect();
 
+const port = 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,7 +35,10 @@ app.get('/api', (req, res) => {
     fetchWikipediaSummary(client, query, req, res, true);
 });
 
-// Export the app for Vercel to use in serverless function
-module.exports = (req, res) => {
-    app(req, res);
-};
+
+app.listen(port, function(err) {
+    console.log(`This app is running on port ${port}`);
+    if (err) {
+        console.log(err);
+    }
+});
