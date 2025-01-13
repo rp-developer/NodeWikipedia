@@ -1,5 +1,4 @@
-import fetch from 'node-fetch';
-
+const fetch = require('node-fetch')
 async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
     try {
         const sendResponse = (status, data) => {
@@ -67,4 +66,6 @@ async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
 
 const replaceSpacesWithUnderscores = (query) => query.replace(/ /g, '_');
 
-export { fetchWikipediaSummary, replaceSpacesWithUnderscores };
+module.exports  =  {
+    fetchWikipediaSummary, replaceSpacesWithUnderscores
+}

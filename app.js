@@ -1,36 +1,40 @@
-import path from 'path'
-import express from 'express'
-import currentModulePaths from 'current-module-paths'
-import { createClient } from 'redis'
-import {fetchWikipediaSummary, replaceSpacesWithUnderscores } from './functions.js'
-const app = express();
-app.set('views', 'views')
-app.set('view engine', 'ejs')
+const path = require('path');
+const express = require('express');
+const currentModulePaths = require('current-module-paths');
+const { createClient } = require('redis');
+const { fetchWikipediaSummary, replaceSpacesWithUnderscores } = require('./functions.js'); // Adjust as needed
 
-const client = createClient( {
+const app = express();
+app.set('views', 'views');
+app.set('view engine', 'ejs');
+
+// Initialize Redis client
+const client = createClient({
     url: process.env.REDIS_URL || 'redis://localhost:6379',
 });
 client.on('error', (err) => console.log(`Redis Client Error`, err));
-client.connect()
-const port = 3000
+client.connect();
 
-const {__filename, __dirname} = currentModulePaths(import.meta.url);
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.render('index', {});
-})
+});
 
 app.get('/submit', (req, res) => {
     const search = req.query.search;
     const query = encodeURIComponent(search);
     fetchWikipediaSummary(client, query, req, res, false);
-})
+});
 
 app.get('/api', (req, res) => {
     const search = req.query.search;
     const query = encodeURIComponent(search);
     fetchWikipediaSummary(client, query, req, res, true);
-})
-module.exports(app);
+});
+
+// Export the app for Vercel to use in serverless function
+module.exports = (req, res) => {
+    app(req, res);
+};
