@@ -1,13 +1,16 @@
-const path = require('path');
-const express = require('express');
-const currentModulePaths = require('current-module-paths');
-const { createClient } = require('redis');
-const { fetchWikipediaSummary, replaceSpacesWithUnderscores } = require('./functions.js'); // Adjust as needed
-
+import path from 'path'
+import express from 'express'
+import currentModulePaths from 'current-module-paths'
+import { createClient } from 'redis';
+import {fetchWikipediaSummary, replaceSpacesWithUnderscores} from './functions.js'
+import { fileURLToPath } from 'url';
+import {dirname} from 'path';
 const app = express();
 app.set('views', 'views');
 app.set('view engine', 'ejs');
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // Initialize Redis client
 const client = createClient({
     url: process.env.REDIS_URL || 'redis://localhost:6379',
