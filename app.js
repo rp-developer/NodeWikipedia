@@ -7,7 +7,9 @@ const app = express();
 app.set('views', 'views')
 app.set('view engine', 'ejs')
 
-const client = createClient();
+const client = createClient ({
+    url : "rediss://default:AdhiAAIjcDE1OGUzNzEzOTUxYjM0MDRmODkyNWQ0NDczYzI4YzUxNXAxMA@perfect-caribou-55394.upstash.io:6379" || "redis://localhost:6379"
+  });
 client.on('error', (err) => console.log(`Redis Client Error`, err));
 client.connect()
 const port = 3000

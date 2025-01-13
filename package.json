@@ -7,5 +7,6 @@
     "nodemon": "^3.1.9",
     "redis": "^4.7.0",
     "wikipedia": "^2.1.2"
-  }
+  },
+  "type" : "module"
 }
