@@ -33,8 +33,4 @@ app.get('/api', (req, res) => {
     const query = encodeURIComponent(search);
     fetchWikipediaSummary(client, query, req, res, true);
 })
-
-app.listen(port, () => {
-    console.log(`Server Listening on port ${port}`);
-    console.log(`http://127.0.0.1:${port}`);
-})
+export default app;
