@@ -33,4 +33,4 @@ app.get('/api', (req, res) => {
     const query = encodeURIComponent(search);
     fetchWikipediaSummary(client, query, req, res, true);
 })
-export default app;
+module.exports(app);
