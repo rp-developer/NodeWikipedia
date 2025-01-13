@@ -40,7 +40,7 @@ app.get('/api', (req, res) => {
 
 
 app.listen(port, function(err) {
-    console.log(`This app is running on port ${port}`);
+    console.log(`This app is running on the address http://127.0.0.1:${port}`);
     if (err) {
         console.log(err);
     }
