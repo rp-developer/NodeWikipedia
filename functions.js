@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
     try {
         const sendResponse = (status, data) => {
@@ -32,13 +31,6 @@ async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
             console.error('Error fetching from Wikipedia API:', response.statusText);
             return res.status(404).send('Page not found');
         }
-
-        const data = await response.json();
-        if (data.type === "https://mediawiki.org/wiki/HyperSwitch/errors/bad_request") {
-            console.log('Page not found');
-            return res.status(404).send('Page not found');
-        }
-
         const { title, extract, content_urls } = data;
         const page = content_urls.desktop.page;
 

@@ -15,7 +15,7 @@ const client = createClient({
     url: process.env.REDIS_URL || 'redis://localhost:6379',
 });
 client.on('error', (err) => console.log(`Redis Client Error`, err));
-client.connect();
+await client.connect();
 
 const port = 3000;
 
