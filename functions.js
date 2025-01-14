@@ -26,6 +26,7 @@ async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
         const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${replaceSpacesWithUnderscores(query)}`;
         console.log("Fetching URL:", url);
         const response = await fetch(url);
+        const data = await response.json();
 
         if (!response.ok) {
             console.error('Error fetching from Wikipedia API:', response.statusText);
