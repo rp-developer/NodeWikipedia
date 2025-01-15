@@ -39,7 +39,7 @@ jobs:
               core.setOutput('deployment_id', deployment.data.id);
             } catch (error) {
               console.error("Error creating deployment:", error);
-              core.setFailed(error.message); 
+              core.setFailed(error.message); 
             }
 
       # Step 3: Trigger Render Deploy Hook
@@ -52,13 +52,13 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
-            const deploymentId = context.workflow.jobs.Create_GitHub_Deployment.outputs.deployment_id; 
-            console.log("Deployment ID:", deploymentId); 
+            const deploymentId = context.workflow.jobs.Create_GitHub_Deployment.outputs.deployment_id; 
+            console.log("Deployment ID:", deploymentId); 
             if (deploymentId) {
               await github.rest.repos.createDeploymentStatus({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                deployment_id: deploymentId, 
+                deployment_id: deploymentId, 
                 state: 'success',
                 environment: 'production',
                 environment_url: 'https://nodewikipedia.onrender.com',
