@@ -52,7 +52,7 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
-            const deploymentId = steps.Create_GitHub_Deployment.outputs.deployment_id; // Use steps.<step_name>.outputs 
+            const deploymentId = context.workflow.jobs.Create_GitHub_Deployment.outputs.deployment_id; 
             console.log("Deployment ID:", deploymentId); 
             if (deploymentId) {
               await github.rest.repos.createDeploymentStatus({
