@@ -33,8 +33,8 @@ jobs:
               required_contexts: [],
               auto_merge: false
             });
-            console.log(deployment.data.id);
-            core.setOutput('deployment_id', deployment.data.id);
+            console.log(deployment.data.id);  // Log the deployment ID for debugging
+            core.setOutput('deployment_id', deployment.data.id);  // Set deployment ID as output
 
       # Step 3: Trigger Render Deploy Hook
       - name: Trigger Render Deploy Hook
@@ -46,8 +46,11 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
-            const deployment_id = process.env.DEPLOYMENT_ID;
-            console.log(deployment_id)
+            const deployment_id = '${{ steps.create-github-deployment.outputs.deployment_id }}';  # Reference deployment ID directly
+            console.log(deployment_id);  // Log the deployment ID for debugging
+            if (!deployment_id) {
+              throw new Error('Deployment ID is missing');
+            }
             await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -57,5 +60,3 @@ jobs:
               environment_url: 'https://nodewikipedia.onrender.com',
               description: 'Render deployment successful!'
             });
-        env:
-          DEPLOYMENT_ID: ${{ steps.create-github-deployment.outputs.deployment_id }}  # Pass the output as an environment variable
