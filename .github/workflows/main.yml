@@ -46,10 +46,11 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
+            const deployment_id = '${{ steps.create-github-deployment.outputs.deployment_id }}';
             await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              deployment_id: ${{ steps.create-github-deployment.outputs.deployment_id }},
+              deployment_id: deployment_id,
               state: 'success',
               environment: 'production',
               environment_url: 'https://nodewikipedia.onrender.com',
