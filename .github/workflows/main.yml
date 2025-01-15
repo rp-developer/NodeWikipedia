@@ -23,6 +23,7 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
+            const core = require('@actions/core');
             const deployment = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -46,7 +47,8 @@ jobs:
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
-            const deployment_id = '${{ steps.create-github-deployment.outputs.deployment_id }}';
+            const deployment_id = process.env.DEPLOYMENT_ID;
+            console.log(deployment_id)
             await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -56,3 +58,5 @@ jobs:
               environment_url: 'https://nodewikipedia.onrender.com',
               description: 'Render deployment successful!'
             });
+        env:
+          DEPLOYMENT_ID: ${{ steps.create-github-deployment.outputs.deployment_id }}  # Pass the output as an environment variable
