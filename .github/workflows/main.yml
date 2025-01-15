@@ -1,0 +1,56 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main  # Change to your target branch if needed
+
+permissions:
+  deployments: write  # Grant write access to deployments
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Create GitHub Deployment
+      - name: Create GitHub Deployment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.ref,
+              task: 'deploy',
+              environment: 'production',
+              description: 'Deploying to Render',
+              required_contexts: [],
+              auto_merge: false
+            });
+            core.setOutput('deployment_id', deployment.data.id);
+
+      # Step 3: Trigger Render Deploy Hook
+      - name: Trigger Render Deploy Hook
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+
+      # Step 4: Update GitHub Deployment Status
+      - name: Update GitHub Deployment Status
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: ${{ steps.create-github-deployment.outputs.deployment_id }},
+              state: 'success',
+              environment: 'production',
+              environment_url: 'https://nodewikipedia.onrender.com',
+              description: 'Render deployment successful!'
+            });
