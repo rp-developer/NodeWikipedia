@@ -33,6 +33,7 @@ jobs:
               required_contexts: [],
               auto_merge: false
             });
+            console.log(deployment.data);
             core.setOutput('deployment_id', deployment.data.id);
 
       # Step 3: Trigger Render Deploy Hook
@@ -48,7 +49,6 @@ jobs:
             await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              console.log(deployment.data);
               deployment_id: ${{ steps.create-github-deployment.outputs.deployment_id }},
               state: 'success',
               environment: 'production',
