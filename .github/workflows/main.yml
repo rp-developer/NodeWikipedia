@@ -31,7 +31,7 @@ jobs:
                 repo: context.repo.repo,
                 ref: context.ref,
                 task: 'deploy',
-                environment: 'production',
+                environment: 'Production',
                 description: 'Deploying to Render',
                 required_contexts: [],
                 auto_merge: false
@@ -61,7 +61,7 @@ jobs:
                 repo: context.repo.repo,
                 deployment_id: deploymentId, 
                 state: 'success',
-                environment: 'production',
+                environment: 'Production',
                 environment_url: 'https://nodewikipedia.onrender.com',
                 description: 'Render deployment successful!'
               });
