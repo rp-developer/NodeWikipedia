@@ -33,7 +33,7 @@ jobs:
               required_contexts: [],
               auto_merge: false
             });
-            console.log(deployment.data);
+            console.log(deployment.data.id);
             core.setOutput('deployment_id', deployment.data.id);
 
       # Step 3: Trigger Render Deploy Hook
