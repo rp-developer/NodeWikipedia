@@ -7,7 +7,7 @@ import {dirname} from 'path';
 const app = express();
 app.set('views', 'views');
 app.set('view engine', 'ejs');
-
+ 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 // Initialize Redis client
