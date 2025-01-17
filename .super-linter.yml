@@ -1,0 +1,8 @@
+# .super-linter.yml
+disable:
+  - markdown
+  - yaml
+
+# Exclude specific files or directories
+exclude:
+  - .github/workflows/main.yml

@@ -1,7 +1,7 @@
 import path from 'path'
 import express from 'express'
 import { createClient } from 'redis';
-import {fetchWikipediaSummary, replaceSpacesWithUnderscores} from './functions.js'
+import {fetchWikipediaSummary} from './functions.js'
 import { fileURLToPath } from 'url';
 import {dirname} from 'path';
 const app = express();
