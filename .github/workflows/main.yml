@@ -22,17 +22,14 @@ jobs:
         with: 
           fetch-depth: 0
 
-      - name: Prettier Fix
-        # You may pin to the exact commit or the version.
-        # uses: WorkOfStan/prettier-fix@53562aadcb727380016156d11eed1e67dc209ba4
-        uses: WorkOfStan/prettier-fix@v1.1.0
-        with:
-          commit-changes: true
-          commit-message: 'Apply Prettier fixes'
-        continue-on-error: true # Allow the workflow to proceed even if this step fails
-
-          
-       
+      - name: Run Prettier Fix
+        run: |
+          npx prettier --write .
+          git add .
+          git commit -m "Apply Prettier fixes on $(date -u)"
+          git push https://${{ secrets.PAT_TOKEN }}@github.com/rp-developer/NodeWikipedia.git HEAD:main
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
           
           
         #Step 2
