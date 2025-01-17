@@ -18,7 +18,7 @@ jobs:
        # Install Prettier and run it on YAML and JavaScript files
       - name: Install Prettier and run formatting
         run: |
-          npx prettier --write "**/*.yaml"
+          npx prettier --write ".github/workflows/**/*.yaml"
           npx prettier --write "**/*.js"
 
       #Step 2: Super Linter
