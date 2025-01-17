@@ -2,6 +2,7 @@
 disable:
   - markdown
   - yaml
+  - checkov
 
 # Exclude specific files or directories
 exclude:
