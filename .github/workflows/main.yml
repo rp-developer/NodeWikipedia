@@ -32,9 +32,7 @@ jobs:
           FIX_YAML_PRETTIER: true
           FIX_CSS: true
           FIX_CSS_PRETTIER: true
-          DISABLE_LINTERS: CHECKOV  # Explicitly disable CHECKOV
-          LINTER_RULES_PATH: .super-linter.yml  # Add this line to reference the configuration file
-          
+          VALIDATE_CHECKOV: false
           
       # Step 3: Create GitHub Deployment
       - name: Create GitHub Deployment
