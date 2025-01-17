@@ -29,7 +29,7 @@ jobs:
           npx prettier --write .
           git add .
           git commit -m "Apply Prettier fixes on $(date -u)" || exit 0
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/rp-developer/NodeWikipedia.git HEAD:main
+          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/rp-developer/NodeWikipedia.git HEAD:main
         #Step 2
       - name: Super-linter
         uses: super-linter/super-linter/slim@v7.2.1 # x-release-please-version
