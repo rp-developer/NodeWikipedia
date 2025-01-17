@@ -1,9 +1,6 @@
 name: Deploy to Render
 
-on:
-  push:
-    branches:
-      - main  # Change to your target branch if needed
+on: [push]
 
 permissions:
   deployments: write  # Grant write access to deployments
@@ -16,10 +13,17 @@ jobs:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+
 
       #Step 2: Super Linter
       - name: Super-Linter
         uses: super-linter/super-linter@v7.2.1
+        env:
+          # To report GitHub Actions status checks
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
       
       # Step 3: Create GitHub Deployment
       - name: Create GitHub Deployment
