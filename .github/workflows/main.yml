@@ -18,10 +18,8 @@ jobs:
        # Install Prettier and run it on YAML and JavaScript files
       - name: Install Prettier and run formatting
         run: |
-          npm install --save-dev prettier
-          prettier --write "**/*.yaml"
-          prettier --write "**/*.js"
-
+          npx prettier --write "**/*.yaml"
+          npx prettier --write "**/*.js"
 
       #Step 2: Super Linter
       - name: Super-Linter
