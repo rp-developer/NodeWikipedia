@@ -32,8 +32,8 @@ async function fetchWikipediaSummary(client, query, req, res, asJson = false) {
             console.error('Error fetching from Wikipedia API:', response.statusText);
             return res.status(404).send('Page not found');
         }
-        const { title, extract, content_urls } = data;
-        const page = content_urls.desktop.page;
+        const { title, extract, contentUrls } = data;
+        const page = contentUrls.desktop.page;
 
         if (!extract) {
             console.log('Page not found');
