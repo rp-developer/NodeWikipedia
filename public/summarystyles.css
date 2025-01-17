@@ -23,7 +23,7 @@ body {
     background-color: white;
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 10%); /* Fixed alpha value */
     width: 100%;
     max-width: 900px;
     overflow-y: auto; /* Allows scrolling only within content if needed */
@@ -97,6 +97,7 @@ a:hover {
         padding: 20px;
     }
 }
+
 /* Button Styling */
 button {
     background-color: #3498db; /* Matches the link color */
@@ -107,19 +108,18 @@ button {
     border: none;
     border-radius: 8px; /* Rounded corners for a modern look */
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 10%); /* Fixed alpha value */
     transition: all 0.3s ease; /* Smooth hover effect */
 }
 
 button:hover {
     background-color: #2980b9; /* Darker shade for hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 20%); /* Fixed alpha value */
     transform: translateY(-2px); /* Subtle lift effect */
 }
 
 button:active {
     background-color: #1c5d85; /* Even darker shade for active state */
     transform: translateY(0); /* Resets lift effect */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 10%); /* Fixed alpha value */
 }
-
