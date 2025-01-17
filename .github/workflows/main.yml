@@ -29,6 +29,8 @@ jobs:
         with:
           commit-changes: true
           commit-message: 'Apply Prettier fixes'
+        continue-on-error: true # Allow the workflow to proceed even if this step fails
+
           
        
           
