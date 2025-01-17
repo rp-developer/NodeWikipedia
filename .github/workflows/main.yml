@@ -27,8 +27,13 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: | 
-            make fix-codebase
+          FIX_JAVASCRIPT_PRETTIER: true
+          FIX_JAVASCRIPT_STANDARD: true
+          FIX_YAML_PRETTIER: true
+          FIX_CSS: true
+          FIX_CSS_PRETTIER: true
+          
+          
       # Step 3: Create GitHub Deployment
       - name: Create GitHub Deployment
         id: create_deployment
