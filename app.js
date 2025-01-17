@@ -37,7 +37,6 @@ app.get('/api', (req, res) => {
     fetchWikipediaSummary(client, query, req, res, true);
 });
 
-
 app.listen(port, function(err) {
     console.log(`This app is running on the address http://127.0.0.1:${port}`);
     if (err) {
