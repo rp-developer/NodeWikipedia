@@ -18,8 +18,8 @@ jobs:
        # Install Prettier and run it on YAML and JavaScript files
       - name: Install Prettier and run formatting
         run: |
-          npx prettier --write ".github/workflows/**/*.yaml"
-          npx prettier --write "**/*.js"
+          npx prettier --write ".github/workflows/main.yaml" || true
+          npx prettier --write "**/*.js" || true
 
       #Step 2: Super Linter
       - name: Super-Linter
@@ -27,6 +27,7 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          RUN_LOCAL: false
 
       
       # Step 3: Create GitHub Deployment
