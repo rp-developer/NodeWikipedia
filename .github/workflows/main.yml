@@ -23,12 +23,12 @@ jobs:
           fetch-depth: 0
       - name: Super Linter
         uses: super-linter/super-linter@v7.2.1
-
-
         env:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: | 
+            make fix-codebase
       # Step 3: Create GitHub Deployment
       - name: Create GitHub Deployment
         id: create_deployment
