@@ -31,7 +31,7 @@ jobs:
           npx prettier --write .
           git add .
           git commit -m "Apply Prettier fixes on $(date -u)"
-          git push https://${{ secrets.PAT_TOKEN }}@github.com/rp-developer/NodeWikipedia.git HEAD:main
+          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/rp-developer/NodeWikipedia.git HEAD:main
           
           
         #Step 2
